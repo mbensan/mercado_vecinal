@@ -1,0 +1,69 @@
+{{> navbar_inside}}
+
+<div class="container">
+  <div class="form br-3">
+    <div class="form-header p-2 text-primary">
+      Publicar
+    </div>
+    <form action="#">
+      <div class="row">
+        <div class="col-6 mt-2">
+          <div class="input-group flex-nowrap">
+            <span class="input-group-text" id="addon-wrapping">Nombre Producto:</span>
+            <input type="text" class="form-control" placeholder="nombre" aria-label="nombre" id="nombre" required aria-describedby="addon-wrapping">
+          </div>
+        </div>
+        <div class="col-6 mt-2">
+          <div class="input-group flex-nowrap">
+            <span class="input-group-text" id="addon-wrapping">Foto Producto:</span>
+            <input type="url" required class="form-control" placeholder="nombre" aria-label="nombre" id="foto" required aria-describedby="addon-wrapping">
+          </div>
+        </div>
+        <div class="col-6 mt-2">
+          <div class="input-group flex-nowrap">
+            <span class="input-group-text" id="addon-wrapping">Precio</span>
+            <input type="number" required class="form-control" placeholder="nombre" aria-label="precio" id="precio" required aria-describedby="addon-wrapping" min="0">
+          </div>
+        </div>
+        <div class="col-6 mt-2">
+          <div class="input-group flex-nowrap">
+            <span class="input-group-text" id="addon-wrapping">Cantidad</span>
+            <input type="number" required class="form-control" placeholder="cantidad" min="1" aria-label="nombre" id="cantidad" required aria-describedby="addon-wrapping">
+          </div>
+        </div>
+        <div class="col-12 mt-2">
+          <div class="input-group flex-nowrap">
+            <span class="input-group-text" id="addon-wrapping">Descripción</span>
+            <textarea name="descripcion" id="descripcion" required class="w-100" rows="3"></textarea>
+          </div>
+        </div>
+
+        <div class="col-12 mt-4">
+          <div class="d-grid gap-2">
+            <input class="btn btn-primary" type="submit" value="Publicar">
+          </div>
+        </div>
+      </div>
+
+    </form>
+  </div>
+</div>
+
+<script>
+  
+  async function init() {
+    // 1. Recupero el token
+    const token = localStorage.getItem('token')
+
+    // 2. Voy a buscar mis datos
+    const {data} = await axios.get('/api/auth/my', {
+      headers: {
+        authorization: token
+      }
+    })
+
+    console.log(data)
+    document.querySelector('#nombre').innerHTML = data.nombre
+  }
+  init()
+</script>

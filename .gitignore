@@ -1,3 +1,4 @@
 **/*node_modules
+.env
 m08/articulos/public/fotos/*
 !m08/articulos/public/fotos/default.jpg

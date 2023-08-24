@@ -4,14 +4,8 @@ const router = express.Router();
 const bcrypt = require('bcrypt')
 
 const {auth_required} = require('../middlewares.js')
-const User = require('../models/users.model.js')
+const {User} = require('../models/index.models.js')
 
-
-const users = [
-  {id: 1, nombre: 'Carlos Salvo', email: 'csalvo@gmail.com', pass: 'abc123'},
-  {id: 1, nombre: 'Paola Brito', email: 'pbrito@gmail.com', pass: '1234'},
-  {id: 1, nombre: 'Diego Pinto', email: 'dpinto@gmail.com', pass: '1111'}
-]
 
 /* Para crear un JWT. */
 router.post('/login', async function(req, res, next) {
@@ -26,7 +20,7 @@ router.post('/login', async function(req, res, next) {
   }
 
   // 3. Verificamos que la contraseña sea la correcta
-  const son_iguales = await bcrypt.compare(password, user.password)
+  const son_iguales = password == user.password
   if (!son_iguales) {
     return res.status(400).json({err: 'Contraseña incorrecta'})
   }
@@ -79,9 +73,8 @@ router.post('/signup', async function(req, res, next) {
   // 5. Creamos el usuario en la base de datos
   let newUser;
   try {
-    const password_encrypt = await bcrypt.hash(password, 10)
-    console.log(password_encrypt)
-    newUser = await User.create({nombre, email, password: password_encrypt})
+    
+    newUser = await User.create({nombre, email, password})
   }
   catch(error) {
     return res.status(400).json(error)
@@ -103,19 +96,6 @@ router.post('/signup', async function(req, res, next) {
   res.json(token);
 });
 
-/* Para leer un JWT */
-router.post('/read', function (req, res) {
-  const {token} = req.body
-
-  let decoded;
-  try {
-    decoded = jwt.verify(token, llave_secreta)
-  }
-  catch(error) {
-    return res.status(400).json(error)
-  }
-  res.json(decoded)
-})
 
 // Ruta que está protegida por nuestro middleware llamado "auth_required"
 router.get('/my', auth_required, (req, res) => {
