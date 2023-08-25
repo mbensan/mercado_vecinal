@@ -18,6 +18,10 @@ router.get('/publicar', function(req, res, next) {
   res.render('publicar');
 });
 
+router.get('/mis_publicaciones', function(req, res, next) {
+  res.render('mis_publicaciones');
+});
+
 
 
 module.exports = router;

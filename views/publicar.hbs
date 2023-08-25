@@ -5,12 +5,12 @@
     <div class="form-header p-2 text-primary">
       Publicar
     </div>
-    <form action="#">
+    <form id="new-publication">
       <div class="row">
         <div class="col-6 mt-2">
           <div class="input-group flex-nowrap">
             <span class="input-group-text" id="addon-wrapping">Nombre Producto:</span>
-            <input type="text" class="form-control" placeholder="nombre" aria-label="nombre" id="nombre" required aria-describedby="addon-wrapping">
+            <input type="text" class="form-control" placeholder="nombre" aria-label="nombre" id="producto" required aria-describedby="addon-wrapping">
           </div>
         </div>
         <div class="col-6 mt-2">
@@ -28,7 +28,7 @@
         <div class="col-6 mt-2">
           <div class="input-group flex-nowrap">
             <span class="input-group-text" id="addon-wrapping">Cantidad</span>
-            <input type="number" required class="form-control" placeholder="cantidad" min="1" aria-label="nombre" id="cantidad" required aria-describedby="addon-wrapping">
+            <input type="number" required class="form-control" placeholder="cantidad" min="1" aria-label="nombre" id="stockInicial" required aria-describedby="addon-wrapping">
           </div>
         </div>
         <div class="col-12 mt-2">
@@ -63,7 +63,42 @@
     })
 
     console.log(data)
-    document.querySelector('#nombre').innerHTML = data.nombre
+    //document.querySelector('#nombre').innerHTML = data.nombre
   }
   init()
+
+  const producto = document.querySelector('#producto')
+  const precio = document.querySelector('#precio')
+  const descripcion = document.querySelector('#descripcion')
+  const stockInicial = document.querySelector('#stockInicial')
+  const foto = document.querySelector('#foto')
+
+
+  document.querySelector('#new-publication').addEventListener('submit', async function (e) {
+    // 1. Prevenimos que se envie el formulario
+    e.preventDefault()
+    console.log('wefds')
+
+    // 2. Obtenemos el token
+    const token = localStorage.getItem('token')
+
+    // 3. Capturamos los valores, y mandamos un POST
+    const {data} = axios.post('/api/publicaciones', 
+      {
+        producto: producto.value,
+        foto: foto.value,
+        stockInicial: stockInicial.value,
+        descripcion: descripcion.value,
+        precio: precio.value
+      },
+      {
+        headers: {
+          authorization: token
+        }
+      },
+    )
+
+    alert('Producto Agregado')
+  })
+
 </script>

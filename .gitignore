@@ -2,3 +2,5 @@
 .env
 m08/articulos/public/fotos/*
 !m08/articulos/public/fotos/default.jpg
+clave_servidor.pem
+

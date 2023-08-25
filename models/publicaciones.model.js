@@ -22,7 +22,7 @@ const Publicacion = db.define('publicacion', {
     allowNull: false,
     validate: {
       len: {
-        args: [2, 50],
+        args: [2, 200],
         msg: 'La foto  debe medir entre 2 y 50 caracteres'
       }
     }

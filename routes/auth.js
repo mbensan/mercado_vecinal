@@ -32,7 +32,7 @@ router.post('/login', async function(req, res, next) {
   const token = jwt.sign({
     exp: una_hora,
     data: {
-      id: user.id,
+      id: user.userID,
       email: user.email,
       nombre: user.nombre
     }
